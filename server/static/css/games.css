@@ -60,6 +60,15 @@ h1 {
     text-align: center;
 }
 
+#stores ul li a {
+    color: var(--text-primary);
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--text-white);
+}
+
 #ratings-cards {
     display: flex;
     flex-direction: row;
