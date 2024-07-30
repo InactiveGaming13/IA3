@@ -59,7 +59,6 @@ class Config:
             self.theme: str = settings.server.theme
 
             self.owner = self.Owner()
-            self.recaptcha = self.Recaptcha()
 
         class Owner:
             """
