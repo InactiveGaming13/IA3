@@ -70,7 +70,7 @@ def search(
     match args.get("type", "list"):
         case "list":
             return renderTemplate(
-                "games/index.html",
+                "index.html",
                 response=api.game.list(**args)
             )
 
