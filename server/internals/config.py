@@ -77,22 +77,6 @@ class Config:
                 self.name: str = settings.server.owner.name
                 self.email: str = settings.server.owner.email  # This is throwing an error
 
-        class Recaptcha:
-            """
-            Contains recaptcha related config data.
-            """
-            __slots__ = [
-                "siteKey",
-                "secretKey"
-            ]
-
-            def __init__(self) -> None:
-                """
-                Initializes the recaptcha object.
-                """
-                self.siteKey: str = settings.server.recaptcha.siteKey
-                self.secretKey: str = settings.server.recaptcha.secretKey
-
     class Logging:
         """
         Contains logging related config data.
