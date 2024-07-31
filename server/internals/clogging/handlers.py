@@ -1,16 +1,18 @@
 """
 Handlers for the logging system.
 """
+
 # Standard Library Imports
+from asyncio import create_task
 from datetime import datetime
 from logging import Handler, LogRecord
 from os import getcwd
 from pathlib import Path
 
 # External Imports
-from flask import Request, Response, g, has_request_context, request
+from flask import Response, g, has_request_context, request
 from psycopg2 import connect as pgConnect
-from psycopg2.extras import RealDictConnection, RealDictCursor, Json
+from psycopg2.extras import Json, RealDictConnection, RealDictCursor
 
 # Local Imports
 from ..config import Config
@@ -122,6 +124,7 @@ class DatabaseLogHandler(Handler):
         Returns:
             str: The id of the record.
         """
+
         cursor.execute(
             """
             INSERT INTO ia3.program_logs (
@@ -182,7 +185,8 @@ class DatabaseLogHandler(Handler):
         else:
             remoteAddr = request.remote_addr
 
-        cursor.execute(
+        DatabaseLogHandler._execute(
+            cursor,
             """
             INSERT INTO ia3.requests (
                 id, 
@@ -250,7 +254,8 @@ class DatabaseLogHandler(Handler):
         Returns:
             None
         """
-        cursor.execute(
+        DatabaseLogHandler._execute(
+            cursor,
             """
             INSERT INTO ia3.responses (
                 request_id, 
@@ -274,3 +279,22 @@ class DatabaseLogHandler(Handler):
                 response.response.__str__() if response.response is not None else None
             )
         )
+
+    @staticmethod
+    def _execute(
+            cursor: RealDictCursor,
+            query: str,
+            *args
+    ) -> None:
+        """
+        Executes a query on the cursor.
+
+        Args:
+            cursor (RealDictCursor): The cursor to use.
+            query (str): The query to execute.
+            *args: The arguments to pass to the query.
+
+        Returns:
+            None
+        """
+        cursor.execute(query, args)

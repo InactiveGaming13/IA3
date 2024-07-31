@@ -15,14 +15,10 @@ from requests import Response, delete, get, post, put, HTTPError
 from .clogging import createLogger
 from .config import Config
 
-cacheLastChecked: float = time()
 
-"""
-Custom errors for Requester calls.
-"""
-
-# Create a multi-thread lock for cache requests and a timeout of 100ms to acquire lock
+# Create cache variables
 cacheLock: Lock = Lock()
+cacheLastChecked: float = time()
 
 # Create cache dictionary
 cache: dict[str, dict] = {}
@@ -278,11 +274,12 @@ class Requester:
         if "previous" in data and data["previous"] is not None:
             data["previous"] = data["previous"].replace(self.config.api.key, "KEY")
 
-        # Add the data to the cache
-        cache[rHash] = data.copy()
+        with cacheLock:
+            # Add the data to the cache
+            cache[rHash] = data.copy()
 
-        # Add the expiration time to the cache (current time + config.api.cacheExpiry)
-        cache[rHash]["expires"] = time() + self.config.api.cacheExpiry
+            # Add the expiration time to the cache (current time + config.api.cacheExpiry)
+            cache[rHash]["expires"] = time() + self.config.api.cacheExpiry
 
         # Return the data
         return data
