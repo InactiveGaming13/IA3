@@ -30,7 +30,6 @@ class RBadGateway(HTTPError):
     """
 
 
-# TODO: Add a lock for iteration
 def checkCache() -> None:
     """
     Checks the cache to see if any requests have expired.
