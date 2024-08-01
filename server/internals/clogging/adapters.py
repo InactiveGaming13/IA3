@@ -5,7 +5,11 @@ Adapters module for custom logging system.
 # Standard Library Imports
 from logging import Logger, LoggerAdapter
 
-from flask import has_request_context
+# Third Party Imports
+
+# Local Imports
+
+# Constants
 
 
 # Custom LoggerAdapter that can be disabled
