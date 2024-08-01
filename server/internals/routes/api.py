@@ -37,4 +37,5 @@ def index(
     #     raise Unauthorized("Requests to the API must come from the server itself.")
 
     # Get the data
+    print(api.requester.get(url, request.args.to_dict()))
     return api.requester.get(url, request.args.to_dict())
