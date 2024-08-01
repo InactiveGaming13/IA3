@@ -11,6 +11,7 @@ from logging import Logger, LoggerAdapter
 
 # Constants
 
+
 # Custom LoggerAdapter that can be disabled
 class SuppressedLoggerAdapter(LoggerAdapter):
     """
